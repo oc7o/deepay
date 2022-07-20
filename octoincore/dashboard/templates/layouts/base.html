@@ -1,0 +1,16 @@
+{% load static %}
+
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'dashboard/dashboard.css' %}" />
+  </head>
+  <body>
+    <div>
+      <header></header>
+      <main>{% block content %}{% endblock content %}</main>
+      <footer></footer>
+      <script src="{% static 'dashboard/dashboard.js' %}"></script>
+    </div>
+  </body>
+</html>
