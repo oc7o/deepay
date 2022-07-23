@@ -1,3 +1,5 @@
+// SRC: https://codepen.io/milesmanners/pen/rwzBam
+
 // All this JS is for creating charts
 // $mm is just a lightweight jQuery substitution library I made
 // $mm should be mostly swappable for normal jQuery
@@ -131,32 +133,6 @@ let date = new Date();
 date.setDate(new Date().getDate() - 7);
 datePickers[0].setDate(date);
 datePickers[1].setDate(new Date());
-
-$mm("#test1").doughnut({
-  data: {
-    labels: ["New", "Returning"],
-    datasets: [
-      {
-        backgroundColor: [colors.primary + "D0", colors.secondary + "D0"],
-        hoverBackgroundColor: [colors.primary, colors.secondary],
-        data: $mm.randData(2, 300, 50),
-      },
-    ],
-  },
-});
-
-$mm("#test2").doughnut({
-  data: {
-    labels: ["New", "Recurring"],
-    datasets: [
-      {
-        backgroundColor: [colors.primary + "D0", colors.secondary + "D0"],
-        hoverBackgroundColor: [colors.primary, colors.secondary],
-        data: $mm.randData(2, 300, 50),
-      },
-    ],
-  },
-});
 
 $mm("#test3").doughnut({
   data: {

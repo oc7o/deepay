@@ -10,6 +10,7 @@ class DashboardView(TemplateView):
     template_name: str = "dashboard/dashboard.html"
 
     def get_context_data(self, **kwargs):
+        print(psutil.virtual_memory())
         data = super(DashboardView, self).get_context_data(**kwargs)
         data.update(
             {
@@ -18,7 +19,7 @@ class DashboardView(TemplateView):
                 "version": platform.version(),
                 "machine": platform.machine(),
                 "processor": platform.processor(),
-                "memory_usage": psutil.virtual_memory().percent,
+                "memory_usage": psutil.virtual_memory(),
                 "cpu_usage": psutil.cpu_percent(),
                 "cpu_count": psutil.cpu_count(),
                 "cpu_freq": psutil.cpu_freq(),

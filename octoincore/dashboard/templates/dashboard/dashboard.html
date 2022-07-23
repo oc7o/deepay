@@ -1,10 +1,10 @@
-{% extends 'layouts/base.html' %} {% block content %}
+{% extends 'layouts/base.html' %} {% load mathfilters %} {% block content %}
 
 <div class="container">
   <div class="col" id="sidebar">
     <nav>
       <div class="header">
-        <a class="brand" href="#"><i class="fa fa-rocket"></i></a>
+        <a class="brand" href="/"><i class="fa fa-rocket"></i></a>
         <button id="menu"><i class="fa fa-bars"></i></button>
       </div>
       <ul>
@@ -13,6 +13,7 @@
           <button class="btn-search"><i class="fa fa-lg fa-search"></i></button>
         </li>
         <li class="nav-text">Dashboards</li>
+        {% comment %}
         <li><a class="active" href="#">Overview</a></li>
         <li><a href="#">Order history</a></li>
         <li><a href="#">Fluid layout</a></li>
@@ -25,20 +26,23 @@
         <li>
           <div class="divider"></div>
         </li>
+        {% endcomment %}
       </ul>
     </nav>
   </div>
   <div class="col">
     <div class="row fluid header">
       <div class="label">
-        <span>Dashboards</span>
+        <span>Dashboard</span>
         <h2>Overview</h2>
       </div>
+      {% comment %}
       <div id="date-range">
         <input class="form-control" />
         <div>-</div>
         <input class="form-control" />
       </div>
+      {% endcomment %}
     </div>
     <div class="divider"></div>
     <div class="row fluid">
@@ -46,15 +50,18 @@
         <div class="chart">
           <canvas id="test1"></canvas>
         </div>
-        <strong>Traffic</strong>
-        <h4>New vs Returning</h4>
+        <strong>CPUs: {{ cpu_count }}</strong>
+        <h4>CPU Usage</h4>
       </div>
       <div class="doughnut">
         <div class="chart">
           <canvas id="test2"></canvas>
         </div>
-        <strong>Revenue</strong>
-        <h4>New vs Recurring</h4>
+        <strong
+          >Total: {{ memory_usage.total | div:2 | div:1024 | div:1024 }}
+          MB</strong
+        >
+        <h4>RAM Usage</h4>
       </div>
       <div class="doughnut">
         <div class="chart">
@@ -195,4 +202,33 @@
     </div>
   </div>
 </div>
-{% endblock content %}
+{% endblock content %} {% block script %}
+<script>
+  // CPU Usage
+  $mm("#test1").doughnut({
+    data: {
+      labels: ["Used", "Remaining"],
+      datasets: [
+        {
+          backgroundColor: [colors.primary + "D0", colors.secondary + "D0"],
+          hoverBackgroundColor: [colors.primary, colors.secondary],
+          data: [{{ cpu_usage }}, 100 - {{ cpu_usage }}],
+        },
+      ],
+    },
+  });
+  // Memory Usage
+  $mm("#test2").doughnut({
+    data: {
+      labels: ["Used", "Available"],
+      datasets: [
+        {
+          backgroundColor: [colors.primary + "D0", colors.secondary + "D0"],
+          hoverBackgroundColor: [colors.primary, colors.secondary],
+          data: [ {{ memory_usage.total }} - {{ memory_usage.available }}, {{ memory_usage.available }}],
+        },
+      ],
+    },
+  });
+</script>
+{% endblock script %}
