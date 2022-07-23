@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # third party apps
+    "mathfilters",
     # local apps
     "octoincore.dashboard",
     "octoincore.console",
