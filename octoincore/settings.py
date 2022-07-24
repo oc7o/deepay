@@ -39,8 +39,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # third party apps
+    "graphene_django",
+    "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
+    "graphql_auth",
+    "django_filters",
     "mathfilters",
     # local apps
+    "octincore.graphql",
+    "octincore.users",
     "octoincore.dashboard",
     "octoincore.console",
     "octoincore.fileserver",
@@ -129,11 +135,40 @@ STATICFILES_DIRS = [BASE_DIR / "octoincore" / "static"]
 
 # Media files (images, videos, etc.)
 
-MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "media/"
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+### GRAPHQL CONFIGURATION ###
+
+AUTH_USER_MODEL = "octoincore.users.ExtendUser"
+
+GRAPHENE = {
+    "SCHEMA": "octoincore.graphql.schema.schema",
+    "MIDDLEWARE": [
+        "graphql_jwt.middleware.JSONWebTokenMiddleware",
+    ],
+}
+
+AUTHENTICATION_BACKENDS = [
+    "graphql_auth.backends.GraphQLAuthBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+GRAPHQL_JWT = {
+    "JWT_ALLOW_ANY_CLASSES": [
+        "graphql_auth.mutations.Register",
+        "graphql_auth.mutations.VerifyAccount",
+        "graphql_auth.mutations.ObtainJSONWebToken",
+    ],
+    "JWT_VERIFY_EXPIRATION": True,
+    "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+}
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
