@@ -1,25 +1,15 @@
-import graphene
-from graphql_auth import mutations
-from graphql_auth.schema import UserQuery, MeQuery
+import strawberry
+from strawberry_django_jwt.middleware import JSONWebTokenMiddleware
 
+from octoincore.dashboard.schema import DashboardQuery
+from octoincore.users.schema import UserMutation
 
-class AuthMutation(graphene.ObjectType):
-    register = mutations.Register.Field()
-    verify_account = mutations.VerifyAccount.Field()
-    token_auth = mutations.ObtainJSONWebToken.Field()
-    update_account = mutations.UpdateAccount.Field()
-    resend_activation_email = mutations.ResendActivationEmail.Field()
-    send_password_reset_email = mutations.SendPasswordResetEmail.Field()
-    password_reset = mutations.PasswordReset.Field()
-    password_change = mutations.PasswordChange.Field()
-
-
-class Query(UserQuery, MeQuery, graphene.ObjectType):
+@strawberry.type
+class Query(DashboardQuery):
     pass
 
-
-class Mutation(AuthMutation, graphene.ObjectType):
+@strawberry.type
+class Mutation(UserMutation):
     pass
 
-
-schema = graphene.Schema(query=Query, mutation=Mutation)
+schema = strawberry.Schema(query=Query, mutation=Mutation, extensions=[JSONWebTokenMiddleware])

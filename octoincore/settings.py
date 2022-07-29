@@ -39,14 +39,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # third party apps
-    "graphene_django",
-    "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
-    "graphql_auth",
+    "strawberry.django",
+    "corsheaders",
+    'strawberry_django_jwt.refresh_token',
+    "gqlauth",
     "django_filters",
     "mathfilters",
     # local apps
-    "octincore.graphql",
-    "octincore.users",
+    "octoincore.graphql",
+    "octoincore.users",
     "octoincore.dashboard",
     "octoincore.console",
     "octoincore.fileserver",
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'corsheaders.middleware.CorsMiddleware', # CORS Headers
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -145,30 +147,19 @@ MEDIA_URL = "media/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+### CORS
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 ### GRAPHQL CONFIGURATION ###
 
-AUTH_USER_MODEL = "octoincore.users.ExtendUser"
+AUTH_USER_MODEL = "users.ExtendUser"
 
-GRAPHENE = {
-    "SCHEMA": "octoincore.graphql.schema.schema",
-    "MIDDLEWARE": [
-        "graphql_jwt.middleware.JSONWebTokenMiddleware",
-    ],
-}
+
 
 AUTHENTICATION_BACKENDS = [
-    "graphql_auth.backends.GraphQLAuthBackend",
+    'strawberry_django_jwt.backends.JSONWebTokenBackend',
     "django.contrib.auth.backends.ModelBackend",
 ]
-
-GRAPHQL_JWT = {
-    "JWT_ALLOW_ANY_CLASSES": [
-        "graphql_auth.mutations.Register",
-        "graphql_auth.mutations.VerifyAccount",
-        "graphql_auth.mutations.ObtainJSONWebToken",
-    ],
-    "JWT_VERIFY_EXPIRATION": True,
-    "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
-}
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
