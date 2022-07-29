@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from gqlauth.settings_type import GqlAuthSettings
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -155,10 +157,21 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 AUTH_USER_MODEL = "users.ExtendUser"
 
+GRAPHQL_JWT = {
+    "JWT_VERIFY_EXPIRATION": True,
 
+    # optional
+    "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+}
+
+GQL_AUTH = GqlAuthSettings(
+    LOGIN_REQUIRE_CAPTCHA=False,
+    REGISTER_REQUIRE_CAPTCHA=False,
+)
 
 AUTHENTICATION_BACKENDS = [
-    'strawberry_django_jwt.backends.JSONWebTokenBackend',
+    # 'strawberry_django_jwt.backends.JSONWebTokenBackend',
+    "gqlauth.backends.GraphQLAuthBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
