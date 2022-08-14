@@ -1,39 +1,33 @@
-anyio==3.6.1
-appdirs==1.4.4
 asgiref==3.5.2
-attrs @ file:///opt/conda/conda-bld/attrs_1642510447205/work
 backports.cached-property==1.0.2
-black==19.10b0
+black==22.6.0
 certifi @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_83242e7e-f82d-4a71-8ef2-9d71d212d249gu_wxmeq/croots/recipe/certifi_1655968827803/work/certifi
 click==8.1.3
 Django==4.0.6
 django-admin-display==1.3.0
 django-cors-headers==3.13.0
 django-filter==22.1
+django-js-asset==2.0.0
 django-mathfilters==1.0.0
+django-mptt==0.13.4
+django-nine==0.2.5
+django-strawberry==0.1.2
 graphql-core==3.2.1
-h11==0.13.0
-idna==3.3
 mypy-extensions==0.4.3
 packaging==21.3
-pathspec==0.7.0
+pathspec==0.9.0
 Pillow==9.2.0
-psutil==5.9.1
+platformdirs==2.5.2
 Pygments==2.12.0
 PyJWT==2.4.0
 pyparsing==3.0.9
 python-dateutil==2.8.2
 python-multipart==0.0.5
-regex @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_978efa21-43f5-4f43-9f25-acd8393817ddce2xcjaf/croots/recipe/regex_1658257186496/work
 six==1.16.0
-sniffio==1.2.0
 sqlparse==0.4.2
-starlette==0.20.4
 strawberry-django-auth==0.3.3.2
 strawberry-django-jwt==0.2.2
-strawberry-graphql==0.121.0
+strawberry-graphql==0.123.2
 strawberry-graphql-django==0.4.0
-toml @ file:///tmp/build/80754af9/toml_1616166611790/work
-typed-ast @ file:///Users/builder/ci_310/typed-ast_1642538648001/work
+tomli==2.0.1
 typing_extensions==4.3.0
-uvicorn==0.18.2

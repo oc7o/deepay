@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 from gqlauth.settings_type import GqlAuthSettings
 
 
@@ -41,14 +42,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # third party apps
-    "strawberry.django",
+    # "strawberry.django",
+    # "strawberry_django",
     "corsheaders",
-    'strawberry_django_jwt.refresh_token',
     "gqlauth",
+    "strawberry_django_jwt.refresh_token",
     "django_filters",
-    "mathfilters",
+    "mptt",
+    # "mathfilters",
     # local apps
-    "octoincore.graphql",
     "octoincore.users",
     "octoincore.dashboard",
     "octoincore.console",
@@ -58,7 +60,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'corsheaders.middleware.CorsMiddleware', # CORS Headers
+    "corsheaders.middleware.CorsMiddleware",  # CORS Headers
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -157,11 +159,13 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 AUTH_USER_MODEL = "users.ExtendUser"
 
-GRAPHQL_JWT = {
-    "JWT_VERIFY_EXPIRATION": True,
 
-    # optional
+GRAPHQL_JWT = {
+    # ...
+    "JWT_VERIFY_EXPIRATION": True,
     "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    "JWT_EXPIRATION_DELTA": timedelta(minutes=5),
+    "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=7),
 }
 
 GQL_AUTH = GqlAuthSettings(
