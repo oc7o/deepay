@@ -53,8 +53,6 @@ INSTALLED_APPS = [
     # local apps
     "octoincore.users",
     "octoincore.dashboard",
-    "octoincore.console",
-    "octoincore.fileserver",
 ]
 
 MIDDLEWARE = [
