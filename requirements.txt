@@ -1,3 +1,5 @@
+# pip list --format=freeze > requirements.txt
+
 anyio==3.6.1
 appdirs==1.4.4
 asgiref==3.4.1
