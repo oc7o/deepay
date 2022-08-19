@@ -1,0 +1,1 @@
+gunicorn octoincore.asgi:application -k uvicorn.workers.UvicornWorker
