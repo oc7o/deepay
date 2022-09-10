@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -23,12 +24,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-y*-ai=-q43dt1=t-w5)1qx@)+@l)3kk!$_sq*n&vf8&bz6cqt)"
+##SECRET_KEY = "django-insecure-y*-ai=-q43dt1=t-w5)1qx@)+@l)3kk!$_sq*n&vf8&bz6cqt)"
+SECRET_KEY = os.environ.get('SECRET_KEY','DEFAULT_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+##DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
 ALLOWED_HOSTS = []
+# if not DEBUG:
+ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
 
 # Application definition
@@ -93,8 +99,12 @@ WSGI_APPLICATION = "octoincore.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "password",
+        "HOST": "db",
+        "PORT": "5432",
     }
 }
 
@@ -133,15 +143,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / "static"
-STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "octoincore" / "static"]
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 
 # Media files (images, videos, etc.)
 
 MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 
 
 # Default primary key field type

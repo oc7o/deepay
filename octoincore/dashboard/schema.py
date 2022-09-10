@@ -1,10 +1,11 @@
 
-import strawberry
 import datetime
 import decimal
-from typing import List
 import platform
-import psutil
+from typing import List
+
+import strawberry
+
 
 @strawberry.type
 class SystemStatus:
@@ -13,11 +14,6 @@ class SystemStatus:
     version: str
     machine: str
     processor: str
-    memory_total: decimal.Decimal
-    memory_available: decimal.Decimal
-    cpu_usage: decimal.Decimal
-    cpu_count: int
-    cpu_freq: str
 
 def resolve_system_status():
     return SystemStatus(
@@ -26,11 +22,6 @@ def resolve_system_status():
         version=platform.version(),
         machine=platform.machine(),
         processor=platform.processor(),
-        memory_total=psutil.virtual_memory().total,
-        memory_available=psutil.virtual_memory().available,
-        cpu_usage=psutil.cpu_percent(),
-        cpu_count=psutil.cpu_count(),
-        cpu_freq=psutil.cpu_freq()
     )
 
 

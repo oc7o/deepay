@@ -1,11 +1,14 @@
 FROM python:3.8-slim
 
+ENV PYTHONUNBUFFERED 1
+
 COPY . /app
 WORKDIR /app
-RUN pip install -r requirements.txt
-RUN python manage.py migrate
-RUN python manage.py collectstatic --noinput
-RUN chmod +x /app/scripts/*
-ENV PATH="/app/scripts:${PATH}"
 
-ENTRYPOINT [ "entrypoint.sh" ]
+RUN pip install -r requirements.txt
+
+COPY ./scripts/ /scripts/
+RUN chmod +x /scripts/*
+ENV PATH="/scripts:${PATH}"
+
+CMD [ "entrypoint.sh" ]
