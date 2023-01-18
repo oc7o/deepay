@@ -12,9 +12,6 @@ from octoincore.schema import schema
 urlpatterns = [
     path("admin/", admin.site.urls),
     re_path(r'^graphql/?$', jwt_cookie(GQLView.as_view(schema=schema))),
-    # path("", include("octoincore.dashboard.urls")),
-    # path("console/", include("octoincore.console.urls")),
-    # path("fileserver/", include("octoincore.fileserver.urls")),
 ]
 
 if settings.DEBUG:

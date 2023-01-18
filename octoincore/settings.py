@@ -14,8 +14,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from gqlauth.settings_type import GqlAuthSettings
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,16 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 ##SECRET_KEY = "django-insecure-y*-ai=-q43dt1=t-w5)1qx@)+@l)3kk!$_sq*n&vf8&bz6cqt)"
-SECRET_KEY = os.environ.get('SECRET_KEY','DEFAULT_SECRET_KEY')
+SECRET_KEY = os.environ.get("SECRET_KEY", "DEFAULT_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 ##DEBUG = True
-DEBUG = bool(int(os.environ.get('DEBUG', 1)))
+DEBUG = bool(int(os.environ.get("DEBUG", 1)))
 
 ALLOWED_HOSTS = []
 # if not DEBUG:
-ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
-ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
+ALLOWED_HOSTS_ENV = os.environ.get("ALLOWED_HOSTS", "localhost")
+ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(","))
 
 
 # Application definition
@@ -49,9 +47,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # third party apps
     # "strawberry.django",
-    # "strawberry_django",
+    "strawberry_django",
     "corsheaders",
-    "gqlauth",
     "strawberry_django_jwt.refresh_token",
     "django_filters",
     "mptt",
@@ -60,6 +57,8 @@ INSTALLED_APPS = [
     "octoincore.users",
     "octoincore.dashboard",
     "octoincore.inventory",
+    "octoincore.payments",
+    "octoincore.demo",
 ]
 
 MIDDLEWARE = [
@@ -116,15 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 
@@ -146,7 +139,7 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "octoincore" / "static"]
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 
 # Media files (images, videos, etc.)
@@ -178,15 +171,16 @@ GRAPHQL_JWT = {
     "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=7),
 }
 
-GQL_AUTH = GqlAuthSettings(
-    LOGIN_REQUIRE_CAPTCHA=False,
-    REGISTER_REQUIRE_CAPTCHA=False,
-)
-
 AUTHENTICATION_BACKENDS = [
-    # 'strawberry_django_jwt.backends.JSONWebTokenBackend',
-    "gqlauth.backends.GraphQLAuthBackend",
+    "strawberry_django_jwt.backends.JSONWebTokenBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+#####################
+### BTCPAY SERVER ###
+#####################
+
+CURRENCY = "EUR"

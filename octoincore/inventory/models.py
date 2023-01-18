@@ -321,7 +321,7 @@ class ProductInventory(models.Model):
         help_text=_("format: Y-m-d H:M:S"),
     )
 
-    products = ProductInventoryManager()
+    # products = ProductInventoryManager()
 
     def __str__(self):
         return self.product.name
@@ -342,8 +342,8 @@ class Media(models.Model):
         null=False,
         blank=False,
         verbose_name=_("product image"),
-        upload_to="images/",
-        default="images/default.png",
+        upload_to="uploads/product_images/",
+        default="defaults/placeholder.png",
         help_text=_("format: required, default-default.png"),
     )
     alt_text = models.CharField(
