@@ -54,11 +54,13 @@ INSTALLED_APPS = [
     "mptt",
     # "mathfilters",
     # local apps
+    "octoincore.config",
     "octoincore.users",
     "octoincore.dashboard",
     "octoincore.inventory",
     "octoincore.payments",
     "octoincore.demo",
+    "octoincore.captcha",
 ]
 
 MIDDLEWARE = [

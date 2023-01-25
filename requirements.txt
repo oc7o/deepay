@@ -5,6 +5,7 @@ attrs==21.4.0
 backports.cached-property==1.0.2
 black==19.10b0
 btcpay-python==1.3.0
+captcha==0.4
 certifi==2022.6.15
 charset-normalizer==2.1.1
 click==8.1.3
