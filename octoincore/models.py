@@ -15,4 +15,4 @@ class OctoModel(models.Model):
 
     def __str__(self):
         """Return the string representation of the model."""
-        return self.web_id
+        return f"{self.web_id}"
