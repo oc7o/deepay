@@ -6,7 +6,6 @@ import strawberry
 from django.conf import settings
 
 from octoincore.basket.models import Basket
-from octoincore.basket.schema import BasketType
 from octoincore.captcha.models import Captcha
 from octoincore.inventory.models import ProductInventory
 from octoincore.inventory.schema import ProductInventoryType
@@ -15,6 +14,9 @@ from octoincore.types import JSON  # from strawberry.scalars import JSON
 
 from .btcpayserver_client import get_btcpay_client
 from .models import Order, OrderInvoice
+
+if typing.TYPE_CHECKING:
+    from octoincore.basket.schema import BasketType
 
 
 @strawberry.django.type(model=OrderInvoice)
@@ -36,8 +38,9 @@ class OrderType:
     zip_code: str
     status: str
     created_at: datetime.datetime | None
+    web_id: str
 
-    basket: BasketType
+    basket: typing.Annotated["BasketType", strawberry.lazy("octoincore.basket.schema")]
     invoice: OrderInvoiceType | None
 
     @strawberry.field
@@ -90,15 +93,32 @@ class PaymentsMutation:
         captcha_text: str,
     ) -> OrderType:
         captcha = Captcha.objects.get(web_id=captcha_web_id)
-        if captcha.captcha != captcha_text:
+        if captcha.text != captcha_text:
             captcha.delete()
             raise Exception("Captcha is not valid")
         captcha.delete()
 
         basket = Basket.objects.get(web_id=basket_web_id)
 
+        if hasattr(basket, "order"):
+            raise Exception("Basket is already ordered")
+
+        out_of_stock = []
+        for basket_object in basket.basket_objects.all():
+            if basket_object.quantity > basket_object.product_inventory.stock.units:
+                out_of_stock.append(
+                    {
+                        "product": basket_object.product_inventory.product.name,
+                        "quantity": basket_object.quantity,
+                        "stock": basket_object.product_inventory.stock.units,
+                    }
+                )
+
+        if len(out_of_stock) > 0:
+            raise Exception("Out of stock", out_of_stock)
+
         order = Order()
-        order.firstnmae = firstname
+        order.firstname = firstname
         order.lastname = lastname
         order.city = city
         order.street = street
@@ -111,7 +131,7 @@ class PaymentsMutation:
         basket.save()
 
         order_invoice = get_btcpay_client().create_invoice(
-            amount=float(basket.total_price())
+            amount=float(basket.total_price)
         )
         print("order_invoice", order_invoice)
 

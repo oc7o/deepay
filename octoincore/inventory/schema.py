@@ -88,6 +88,12 @@ class ProductAttributeType:
     name: str
 
 
+@strawberry.django.type(model=Stock)
+class StockType:
+    web_id: str
+    units: int
+
+
 @strawberry.django.type(model=Brand)
 class BrandType:
     web_id: str
@@ -138,6 +144,7 @@ class ProductInventoryType:
     brand: typing.Optional[BrandType]
     attribute_values: typing.List[ProductAttributeValueType]
     product: typing.Annotated["ProductType", "ProductType"]
+    stock: StockType
 
     @strawberry.field
     def product_images(self, info) -> typing.List[MediaType]:
@@ -346,6 +353,15 @@ class InventoryMutation:
         #             attribute_value=attribute_value.attribute_value,
         #         )
         return product_inventory
+
+    @strawberry.mutation(permission_classes=[IsAuthenticated])
+    def delete_product(
+        self,
+        info: strawberry.types.Info,
+        web_id: str,
+    ) -> bool:
+        Product.objects.filter(web_id=web_id).delete()
+        return True
 
     @strawberry.mutation(permission_classes=[IsAuthenticated])
     def delete_product_inventory(

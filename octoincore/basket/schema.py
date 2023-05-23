@@ -10,6 +10,9 @@ from octoincore.inventory.schema import ProductInventoryType
 
 from .models import Basket, BasketObject
 
+if typing.TYPE_CHECKING:
+    from octoincore.payments.schema import OrderType
+
 
 @strawberry.django.type(model=BasketObject)
 class BasketObjectType:
@@ -30,12 +33,19 @@ class BasketType:
     ]
     total_price: Decimal
     total_qty: int
+    order: typing.Annotated[
+        "OrderType", strawberry.lazy("octoincore.payments.schema")
+    ] | None
 
     @strawberry.field
     def vendor_basket_objects(self, info) -> typing.List[BasketObjectType]:
-        return BasketObject.objects.filter(
-            product_inventory__product__owner=info.context.request.user,
-        ).all()
+        return (
+            BasketObject.objects.filter(basket=self)
+            .filter(
+                product_inventory__product__owner=info.context.request.user,
+            )
+            .all()
+        )
 
 
 @strawberry.type
@@ -43,7 +53,17 @@ class BasketQuery:
     @strawberry.field
     def basket(self, info, web_id: str) -> BasketType:
         basket = Basket.objects.get(web_id=web_id)
-        return basket
+        order = basket.order if hasattr(basket, "order") else None
+        return BasketType(
+            web_id=basket.web_id,
+            created_at=basket.created_at,
+            updated_at=basket.updated_at,
+            basket_objects=basket.basket_objects.all(),
+            total_price=basket.total_price,
+            total_qty=basket.total_qty,
+            order=order,
+            vendor_basket_objects=basket.vendor_basket_objects(info),
+        )
 
 
 @strawberry.type
@@ -83,9 +103,7 @@ class BasketMutation:
         basket = Basket.objects.get(web_id=basket_web_id)
         if basket.locked:
             raise Exception("Basket is locked")
-        product_inventory = ProductInventory.objects.get(
-            inventory_web_id=inventory_web_id
-        )
+        product_inventory = ProductInventory.objects.get(web_id=inventory_web_id)
         basket_object = BasketObject.objects.get(
             basket=basket,
             product_inventory=product_inventory,

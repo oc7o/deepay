@@ -34,7 +34,7 @@ class CaptchaType:
 class CaptchaMutation:
     @strawberry.mutation
     def create_captcha(self, info) -> CaptchaType:
-        web_id = uuid.uuid4().hex[:16]
+        web_id = uuid.uuid4()
 
         image = ImageCaptcha(width=280, height=90)
         captcha_text = randomword(6)
@@ -46,7 +46,7 @@ class CaptchaMutation:
 
         obj = Captcha.objects.create(
             web_id=web_id,
-            captcha=captcha_text,
+            text=captcha_text,
             image=InMemoryUploadedFile(
                 image_file,
                 None,
@@ -65,9 +65,7 @@ class CaptchaMutation:
     @strawberry.mutation
     def submit_captcha(self, info, web_id: str, captcha_text: str) -> bool:
         captcha = Captcha.objects.get(web_id=web_id)
-        submit = True
         if captcha.captcha != captcha_text:
             return False
         captcha.delete()
-
-        return submit
+        return True
