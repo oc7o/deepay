@@ -384,6 +384,9 @@ class Stock(OctoModel):
         help_text=_("format: required, default-0"),
     )
 
+    def __str__(self):
+        return f"{self.product_inventory} - {self.units}"
+
 
 class ProductAttributeValues(models.Model):
     """

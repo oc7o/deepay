@@ -21,6 +21,8 @@ class Order(OctoModel):
             ("paid", "paid"),
             ("shipped", "shipped"),
             ("canceled", "canceled"),
+            ("done", "done"),
+            ("objected", "objected"),
         ],
     )
 
@@ -29,7 +31,7 @@ class Order(OctoModel):
     )
 
     def __str__(self):
-        return f"{self.status} - {self.code}"
+        return f"{self.status} - {self.web_id}"
 
 
 class OrderInvoice(models.Model):

@@ -28,7 +28,7 @@ class ExtendUser(AbstractUser):
         a = Order.objects.filter(
             basket__basket_objects__product_inventory__product__owner=self,
             created_at__month=datetime.datetime.now().month,
-            status__in=["paid", "shipped"],
+            status__in=["paid", "shipped", "done"],
         )
         b = a.aggregate(
             models.Sum("basket__basket_objects__product_inventory__store_price")
@@ -44,7 +44,7 @@ class ExtendUser(AbstractUser):
     def balance(self) -> float:
         earnings = Order.objects.filter(
             basket__basket_objects__product_inventory__product__owner=self,
-            status__in=["paid", "shipped"],
+            status__in=["paid", "shipped", "done"],
         ).aggregate(
             models.Sum("basket__basket_objects__product_inventory__store_price")
         )
