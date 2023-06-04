@@ -2,8 +2,9 @@
 .vscode/
 
 # Django
-staticfiles/
-media/uploads/
+# staticfiles/
+# media/uploads/
+tmp/
 
 ###
 
