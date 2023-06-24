@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "octoincore.apps.basket",
     "octoincore.apps.demo",
     "octoincore.apps.captcha",
+    "octoincore.apps.landing",
 ]
 
 MIDDLEWARE = [
