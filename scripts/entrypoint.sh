@@ -17,5 +17,5 @@ then
   python manage.py runserver 0.0.0.0:8000
 else
   echo "Running Production"
-  gunicorn octoincore.asgi:application -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000
+  gunicorn deepay.asgi:application -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000
 fi

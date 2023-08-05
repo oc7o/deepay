@@ -1,1 +1,1 @@
-web: gunicorn octoincore.asgi:application -k uvicorn.workers.UvicornWorker
+web: gunicorn deepay.asgi:application -k uvicorn.workers.UvicornWorker

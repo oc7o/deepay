@@ -1,1 +1,1 @@
-pytest_plugins = ["octoincore.tests.fixtures", "octoincore.tests.factories"]
+pytest_plugins = ["deepay.tests.fixtures", "deepay.tests.factories"]
