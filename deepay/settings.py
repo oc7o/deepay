@@ -32,6 +32,11 @@ ALLOWED_HOSTS = []
 ALLOWED_HOSTS_ENV = os.environ.get("ALLOWED_HOSTS", "localhost")
 ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(","))
 
+INTERNAL_IPS = []
+
+if DEBUG:
+    INTERNAL_IPS.append("127.0.0.1")
+
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 CSRF_TRUSTED_ORIGINS = []
@@ -58,8 +63,6 @@ INSTALLED_APPS = [
     "django_filters",
     "mptt",
     "storages",
-    # dev apps
-    "django_browser_reload",
     # local apps
     "deepay.apps.users",
     "deepay.apps.inventory",
@@ -69,6 +72,12 @@ INSTALLED_APPS = [
     "deepay.apps.captcha",
     "deepay.apps.landing",
 ]
+
+if DEBUG:
+    # dev apps
+    INSTALLED_APPS += ("django_browser_reload",)
+    INSTALLED_APPS += ("debug_toolbar",)
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -83,6 +92,8 @@ MIDDLEWARE = [
 
 if DEBUG:
     MIDDLEWARE += ("django_browser_reload.middleware.BrowserReloadMiddleware",)
+    MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
+
 
 ROOT_URLCONF = "deepay.urls"
 
