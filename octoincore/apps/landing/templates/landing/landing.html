@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="flex justify-center">
+    <h1 class="text-white text-4xl font-bold bg-gradient-to-r from-indigo-500 to-fuchsia-800 p-4">Even better without Kirby</h1>
+  </div>
+  <br />
+  <div class="grid grid-cols-3 gap-4">
+    {% for product in products %}
+      <div class="card lg:card-side bg-base-100 shadow-xl">
+        <figure class="w-4/6">
+          <img src="{{ product.inventories.first.media_files.first.image }}" alt="Image" />
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title">{{ product.name }}</h2>
+          <p>{{ product.description }}</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-primary">Listen</button>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

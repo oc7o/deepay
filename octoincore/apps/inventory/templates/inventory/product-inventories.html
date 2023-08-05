@@ -1,0 +1,75 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="text-sm breadcrumbs">
+    <ul>
+      <li>
+        <a href="{% url 'inventory:my-products' %}">My Products</a>
+      </li>
+      <li>
+        <a>Create</a>
+      </li>
+    </ul>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Is Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <p>{{ product }}</p>
+        {% for inventory in product.inventories.all %}
+        <p>{{inventory.web_id}}</p>
+          <tr>
+            <td>
+              <div class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="mask mask-squircle w-12 h-12">
+                    <img src="{{ inventory.default_image }}" alt="Image" />
+                  </div>
+                </div>
+                <div>
+                  <div class="font-bold">[Placeholder]</div>
+                  <div class="text-sm opacity-50">{{ inventory.web_id }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div>{{ product.category }}</div>
+            </td>
+            <td>
+              <p>
+                {% if inventory.is_active %}
+                  <i class="bi bi-check-circle"></i>
+                {% else %}
+                  <i class="bi bi-x-circle"></i>
+                {% endif %}
+              </p>
+            </td>
+            <th>
+              <button class="btn btn-ghost btn-xs"><i class="bi bi-eye"></i></button>
+            </th>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <!-- foot -->
+      {% comment %} <tfoot>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Job</th>
+          <th>Favorite Color</th>
+          <th></th>
+        </tr>
+      </tfoot> {% endcomment %}
+    </table>
+  </div>
+{% endblock %}

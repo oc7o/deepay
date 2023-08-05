@@ -1,0 +1,76 @@
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/pico.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'icons/font/bootstrap-icons.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/octo.css' %}" />
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li></li>
+        <li>
+          <a href="#" role="button"><i class="bi bi-list"></i></a>
+        </li>
+      </ul>
+      <ul>
+        <li><strong>Brand</strong></li>
+      </ul>
+      <ul>
+        <li><a href="#" class="secondary">…</a></li>
+      </ul>
+    </nav>
+    <div class="no-separator container">
+      <details>
+        <summary>Search & Filter</summary>
+        <div class="grid">
+          <input type="search" id="search" name="search" placeholder="Search" />
+          <button>Search</button>
+        </div>
+      </details>
+    </div>
+    <main class="container">
+      <div class="no-separator grid">
+        <article class="no-top-separator">
+          <header>Header</header>
+          Body
+          <footer>Footer</footer>
+        </article>
+        <article class="no-top-separator">
+          <header>Header</header>
+          Body
+          <footer>Footer</footer>
+        </article>
+        <article class="no-top-separator">
+          <header>Header</header>
+          Body
+          <footer>Footer</footer>
+        </article>
+      </div>
+      <div class="no-separator grid">
+        <article class="no-top-separator">
+          <header>Header</header>
+          Body
+          <footer>Footer</footer>
+        </article>
+        <article class="no-top-separator">
+          <header>Header</header>
+          Body
+          <footer>Footer</footer>
+        </article>
+        <article class="no-top-separator">
+          <header>Header</header>
+          Body
+          <footer>Footer</footer>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

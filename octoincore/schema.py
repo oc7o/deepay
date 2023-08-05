@@ -12,12 +12,12 @@ from strawberry.types import ExecutionContext
 from strawberry_django_jwt import exceptions
 from strawberry_django_jwt.middleware import JSONWebTokenMiddleware
 
-from octoincore.basket.schema import BasketMutation, BasketQuery
-from octoincore.captcha.schema import CaptchaMutation
-from octoincore.inventory.models import Product
-from octoincore.inventory.schema import InventoryMutation, InventoryQuery
-from octoincore.payments.schema import PaymentsMutation, PaymentsQuery
-from octoincore.users.schema import UserMutations, UserQuery
+from octoincore.apps.basket.schema import BasketMutation, BasketQuery
+from octoincore.apps.captcha.schema import CaptchaMutation
+from octoincore.apps.inventory.models import Product
+from octoincore.apps.inventory.schema import InventoryMutation, InventoryQuery
+from octoincore.apps.payments.schema import PaymentsMutation, PaymentsQuery
+from octoincore.apps.users.schema import UserMutations, UserQuery
 
 logger = logging.getLogger("strawberry.execution")
 

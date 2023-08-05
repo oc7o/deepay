@@ -58,13 +58,16 @@ INSTALLED_APPS = [
     "django_filters",
     "mptt",
     "storages",
+    # dev apps
+    "django_browser_reload",
     # local apps
-    "octoincore.users",
-    "octoincore.inventory",
-    "octoincore.payments",
-    "octoincore.basket",
-    "octoincore.demo",
-    "octoincore.captcha",
+    "octoincore.apps.users",
+    "octoincore.apps.inventory",
+    "octoincore.apps.payments",
+    "octoincore.apps.basket",
+    "octoincore.apps.demo",
+    "octoincore.apps.captcha",
+    "octoincore.apps.landing",
 ]
 
 MIDDLEWARE = [
@@ -78,12 +81,17 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+if DEBUG:
+    MIDDLEWARE += ("django_browser_reload.middleware.BrowserReloadMiddleware",)
+
 ROOT_URLCONF = "octoincore.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -102,22 +110,33 @@ WSGI_APPLICATION = "octoincore.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if os.environ.get("DATABASE_URL", None) is None:
+DATABASE_TYPE = os.environ.get("DATABASE_TYPE", "sqlite3")
+
+if DATABASE_TYPE == "sqlite3":
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": os.environ.get("POSTGRES_DB"),
-            "USER": os.environ.get("POSTGRES_USER", "postgres"),
-            "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-            "HOST": os.environ.get("POSTGRES_HOST"),
-            "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
-else:
-    import dj_database_url
+elif DATABASE_TYPE == "postgres":
+    if os.environ.get("DATABASE_URL", None) is None:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql_psycopg2",
+                "NAME": os.environ.get("POSTGRES_DB"),
+                "USER": os.environ.get("POSTGRES_USER", "postgres"),
+                "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+                "HOST": os.environ.get("POSTGRES_HOST"),
+                "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+            }
+        }
 
-    DATABASES = {"default": dj_database_url.config()}
+    else:
+        import dj_database_url
+
+        DATABASES = {"default": dj_database_url.config()}
 
 
 # Password validation
@@ -160,14 +179,14 @@ if STORAGE == "local":
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-    STATIC_ROOT = BASE_DIR / "staticfiles"
+    STATIC_ROOT = BASE_DIR / "tmp" / "static"
     STATIC_URL = "/static/"
-    STATICFILES_DIRS = [BASE_DIR / "octoincore" / "static"]
+    STATICFILES_DIRS = [BASE_DIR / "static"]
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
     # Media files (images, videos, etc.)
 
-    MEDIA_ROOT = BASE_DIR / "media"
+    MEDIA_ROOT = BASE_DIR / "tmp" / "media"
     MEDIA_URL = "/media/"
 
 if STORAGE == "s3":
@@ -220,6 +239,12 @@ AUTHENTICATION_BACKENDS = [
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+
+#####################
+
+LOGOUT_REDIRECT_URL = "landing:landung"
+
+DEFAULT_PLACEHOLDER_IMAGE = STATIC_URL + "defaults/placeholder.png"
 
 #####################
 ### BTCPAY SERVER ###
