@@ -104,6 +104,23 @@ class Product(OctoModel):
         help_text=_("format: true=product visible"),
     )
 
+    @property
+    def default_image(self):
+        if self.inventories.exists():
+            if (
+                self.inventories.filter(is_default=True).exists()
+                and self.inventories.filter(is_default=True)
+                .media_files.filter(is_default=True)
+                .exists()
+            ):
+                return (
+                    self.inventories.filter(is_default=True)
+                    .media_files.filter(is_default=True)
+                    .first()
+                    .image
+                )
+        return settings.DEFAULT_PLACEHOLDER_IMAGE
+
     def __str__(self):
         return self.name
 
@@ -305,6 +322,12 @@ class ProductInventory(OctoModel):
     )
 
     # products = ProductInventoryManager()
+
+    @property
+    def default_image(self):
+        if self.media_files.filter(is_feature=True).exists():
+            return self.media_files.filter(is_feature=True).first().image
+        return settings.DEFAULT_PLACEHOLDER_IMAGE
 
     def __str__(self):
         return f"{self.product.name}: {self.describing_keyword}"

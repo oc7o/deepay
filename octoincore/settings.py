@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     "django_filters",
     "mptt",
     "storages",
+    # dev apps
+    "django_browser_reload",
     # local apps
     "octoincore.apps.users",
     "octoincore.apps.inventory",
@@ -78,6 +80,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE += ("django_browser_reload.middleware.BrowserReloadMiddleware",)
 
 ROOT_URLCONF = "octoincore.urls"
 
@@ -234,6 +239,12 @@ AUTHENTICATION_BACKENDS = [
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+
+#####################
+
+LOGOUT_REDIRECT_URL = "landing:landung"
+
+DEFAULT_PLACEHOLDER_IMAGE = STATIC_URL + "defaults/placeholder.png"
 
 #####################
 ### BTCPAY SERVER ###

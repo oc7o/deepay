@@ -1,15 +1,16 @@
 {% load static %}
 
-<html lang="en">
+<html data-theme="dark">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="{% static 'css/pico.min.css' %}" />
-    <title>Hello, world!</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{% static "css/output.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'icons/font/bootstrap-icons.min.css' %}">
   </head>
-  <body>
-    <main class="container">
-      <h1>Hello, world!</h1>
-    </main>
+  {% comment %} <body style="background-image: url('{% static 'images/pattern.jpg' %}')"> {% endcomment %}
+  <body class="bg-gray-800">
+    {% include 'components/navbar.html' %}
+    <div class="m-16">{% block content %} {% endblock content %}</div>
+    {% include 'components/footer.html' %}
   </body>
 </html>
