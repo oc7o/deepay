@@ -7,7 +7,7 @@ boto3==1.26.122
 botocore==1.29.122
 btcpay-python==1.3.0
 captcha==0.4
-certifi==2022.12.7
+certifi==2023.7.22
 charset-normalizer==3.1.0
 click==8.1.3
 distlib==0.3.6
