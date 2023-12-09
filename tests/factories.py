@@ -71,7 +71,7 @@ class MediaFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Media
 
-    product_inventory = factory.SubFactory(ProductInventoryFactory)
+    inventory = factory.SubFactory(ProductInventoryFactory)
     image = "images/default.png"
     alt_text = "a default image solid color"
     is_feature = True
@@ -81,7 +81,7 @@ class StockFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Stock
 
-    product_inventory = factory.SubFactory(ProductInventoryFactory)
+    inventory = factory.SubFactory(ProductInventoryFactory)
     units = 2
     units_sold = 100
 
@@ -112,10 +112,12 @@ class ProductAttributeValuesFactory(factory.django.DjangoModelFactory):
 
 class ProductWithAttributeValuesFactory(ProductInventoryFactory):
     attributevalues1 = factory.RelatedFactory(
-        ProductAttributeValuesFactory, factory_related_name="productinventory",
+        ProductAttributeValuesFactory,
+        factory_related_name="productinventory",
     )
     attributevalues2 = factory.RelatedFactory(
-        ProductAttributeValuesFactory, factory_related_name="productinventory",
+        ProductAttributeValuesFactory,
+        factory_related_name="productinventory",
     )
 
 
