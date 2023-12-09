@@ -110,6 +110,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "deepay.apps.basket.context_processors.basket_context",
             ],
         },
     },
@@ -191,7 +192,7 @@ if STORAGE == "local":
     # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
     STATIC_ROOT = BASE_DIR / "tmp" / "static"
-    STATIC_URL = "/static/"
+    STATIC_URL = "/media/static/"
     STATICFILES_DIRS = [BASE_DIR / "static"]
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
@@ -255,7 +256,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 LOGOUT_REDIRECT_URL = "landing:landung"
 
-DEFAULT_PLACEHOLDER_IMAGE = STATIC_URL + "defaults/placeholder.png"
+DEFAULT_PLACEHOLDER_IMAGE = {"url": STATIC_URL + "defaults/placeholder.png"}
 
 #####################
 ### BTCPAY SERVER ###
