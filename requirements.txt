@@ -11,7 +11,7 @@ btcpay-python==1.3.0
 captcha==0.4
 certifi==2022.12.7
 cffi==1.15.1
-charset-normalizer==2.0.4
+charset-normalizer==3.1.0
 click==8.1.3
 conda==23.7.2
 conda-package-handling==2.2.0
@@ -19,7 +19,7 @@ conda_package_streaming==0.9.0
 cryptography==41.0.2
 distlib==0.3.6
 dj-database-url==2.0.0
-Django==4.2
+Django==4.2.4
 django-admin-display==1.3.0
 django-browser-reload==1.10.0
 django-cors-headers==3.14.0
