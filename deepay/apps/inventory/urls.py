@@ -1,6 +1,10 @@
 from django.urls import path
 
-from deepay.apps.inventory.views import MyProductsView, ProductInventoriesView
+from deepay.apps.inventory.views import (
+    MyProductsView,
+    ProductInventoriesView,
+    ProductInventoryDetailView,
+)
 
 app_name = "inventory"
 
@@ -12,5 +16,10 @@ urlpatterns = [
         "my-products/<uuid:web_id>/inventories/",
         ProductInventoriesView.as_view(),
         name="product-inventories",
+    ),
+    path(
+        "p/<uuid:web_id>/",
+        ProductInventoryDetailView.as_view(),
+        name="product-inventory-detail",
     ),
 ]

@@ -304,7 +304,7 @@ class InventoryMutation:
         return product
 
     @strawberry.mutation(permission_classes=[IsAuthenticated])
-    def create_product_inventory(
+    def create_inventory(
         self,
         info: strawberry.types.Info,
         product_web_id: str,
@@ -318,27 +318,27 @@ class InventoryMutation:
         product_type_web_id: str | None = None,
         attribute_values: JSON | None = None,
     ) -> ProductInventoryType:
-        product_inventory = ProductInventory()
-        product_inventory.product = Product.objects.get(web_id=product_web_id)
-        product_inventory.is_active = is_active
-        product_inventory.is_default = is_default
-        product_inventory.weight = weight
-        # product_inventory.retail_price = retail_price
-        product_inventory.store_price = store_price
-        # product_inventory.sale_price = sale_price
+        inventory = ProductInventory()
+        inventory.product = Product.objects.get(web_id=product_web_id)
+        inventory.is_active = is_active
+        inventory.is_default = is_default
+        inventory.weight = weight
+        # inventory.retail_price = retail_price
+        inventory.store_price = store_price
+        # inventory.sale_price = sale_price
         if brand_web_id is not None:
-            product_inventory.brand = Brand.objects.get(web_id=brand_web_id)
+            inventory.brand = Brand.objects.get(web_id=brand_web_id)
         if product_type_web_id is not None:
-            product_inventory.product_type = ProductTypeModel.objects.get(
+            inventory.product_type = ProductTypeModel.objects.get(
                 web_id=product_type_web_id
             )
-        product_inventory.save()
+        inventory.save()
         if media is not None:
             Media.objects.bulk_create(
                 [
                     Media(
                         image=m.image,
-                        product_inventory=product_inventory,
+                        inventory=inventory,
                     )
                     for m in media
                 ]
@@ -346,13 +346,13 @@ class InventoryMutation:
         # if attribute_values is not None:
         #     for attribute_value in attribute_values:
         #         ProductAttributeValue.objects.create(
-        #             product_inventory=product_inventory,
+        #             inventory=inventory,
         #             product_attribute=ProductAttribute.objects.get(
         #                 slug=attribute_value.product_attribute
         #             ),
         #             attribute_value=attribute_value.attribute_value,
         #         )
-        return product_inventory
+        return inventory
 
     @strawberry.mutation(permission_classes=[IsAuthenticated])
     def delete_product(
@@ -364,7 +364,7 @@ class InventoryMutation:
         return True
 
     @strawberry.mutation(permission_classes=[IsAuthenticated])
-    def delete_product_inventory(
+    def delete_inventory(
         self,
         info: strawberry.types.Info,
         web_id: str,

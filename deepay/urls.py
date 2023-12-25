@@ -12,7 +12,7 @@ from deepay.schema import schema
 urlpatterns = [
     path("", include("deepay.apps.landing.urls", namespace="landing")),
     path("accounts/", include("deepay.apps.users.urls", namespace="users")),
-    path("inventory/", include("deepay.apps.inventory.urls", namespace="inventory")),
+    path("products/", include("deepay.apps.inventory.urls", namespace="inventory")),
     path("admin/", admin.site.urls),
     path("basket/", include("deepay.apps.basket.urls", namespace="basket")),
     re_path(r"^graphql/?$", jwt_cookie(GQLView.as_view(schema=schema))),

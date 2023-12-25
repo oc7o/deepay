@@ -105,6 +105,15 @@ class Product(DefaultModel):
     )
 
     @property
+    def default_inventory(self):
+        if self.inventories.exists():
+            if self.inventories.filter(is_default=True).exists():
+                return self.inventories.filter(is_default=True).first()
+            else:
+                return self.inventories.first()
+        return None
+
+    @property
     def default_image(self):
         if self.inventories.exists():
             if (
@@ -120,6 +129,14 @@ class Product(DefaultModel):
                     .image
                 )
         return settings.DEFAULT_PLACEHOLDER_IMAGE
+
+    @property
+    def starting_from_price(self):
+        if self.inventories.order_by("store_price").first() is not None:
+            minimal_price = self.inventories.order_by("store_price").first().store_price
+        else:
+            minimal_price = 0
+        return minimal_price
 
     def __str__(self):
         return self.name
@@ -327,7 +344,12 @@ class ProductInventory(DefaultModel):
     def default_image(self):
         if self.media_files.filter(is_feature=True).exists():
             return self.media_files.filter(is_feature=True).first().image
+        elif self.media_files.exists():
+            return self.media_files.first().image
         return settings.DEFAULT_PLACEHOLDER_IMAGE
+
+    def add_to_basket(self, basket, qty):
+        basket.add(self, qty)
 
     def __str__(self):
         return f"{self.product.name}: {self.describing_keyword}"
@@ -341,7 +363,7 @@ class Media(DefaultModel):
     The product image table.
     """
 
-    product_inventory = models.ForeignKey(
+    inventory = models.ForeignKey(
         ProductInventory,
         on_delete=models.PROTECT,
         related_name="media_files",
@@ -378,7 +400,7 @@ class Media(DefaultModel):
 
 
 class Stock(DefaultModel):
-    product_inventory = models.OneToOneField(
+    inventory = models.OneToOneField(
         ProductInventory,
         related_name="stock",
         on_delete=models.PROTECT,
@@ -408,7 +430,7 @@ class Stock(DefaultModel):
     )
 
     def __str__(self):
-        return f"{self.product_inventory} - {self.units}"
+        return f"{self.inventory} - {self.units}"
 
 
 class ProductAttributeValues(models.Model):

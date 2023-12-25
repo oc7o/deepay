@@ -17,8 +17,8 @@ if typing.TYPE_CHECKING:
 @strawberry.django.type(model=BasketObject)
 class BasketObjectType:
     web_id: str
-    product_inventory: typing.Annotated["ProductInventoryType", "ProductInventoryType"]
-    quantity: int
+    inventory: typing.Annotated["ProductInventoryType", "ProductInventoryType"]
+    qty: int
     created_at: datetime
     updated_at: datetime
 
@@ -42,7 +42,7 @@ class BasketType:
         return (
             BasketObject.objects.filter(basket=self)
             .filter(
-                product_inventory__product__owner=info.context.request.user,
+                inventory__product__owner=info.context.request.user,
             )
             .all()
         )
@@ -75,24 +75,22 @@ class BasketMutation:
 
     @strawberry.mutation
     def add_to_basket(
-        self, info, basket_web_id: str, inventory_web_id: str, quantity: int
+        self, info, basket_web_id: str, inventory_web_id: str, qty: int
     ) -> BasketType:
         basket = Basket.objects.get(web_id=basket_web_id)
         if basket.locked:
             raise Exception("Basket is locked")
-        product_inventory = ProductInventory.objects.get(web_id=inventory_web_id)
-        basket_objects = BasketObject.objects.filter(
-            basket=basket, product_inventory=product_inventory
-        )
+        inventory = ProductInventory.objects.get(web_id=inventory_web_id)
+        basket_objects = BasketObject.objects.filter(basket=basket, inventory=inventory)
         if basket_objects.exists():
             basket_object = basket_objects.first()
-            basket_object.quantity += quantity
+            basket_object.qty += qty
             basket_object.save()
         else:
             basket_object = BasketObject.objects.create(
                 basket=basket,
-                product_inventory=product_inventory,
-                quantity=quantity,
+                inventory=inventory,
+                qty=qty,
             )
         return basket
 
@@ -103,27 +101,27 @@ class BasketMutation:
         basket = Basket.objects.get(web_id=basket_web_id)
         if basket.locked:
             raise Exception("Basket is locked")
-        product_inventory = ProductInventory.objects.get(web_id=inventory_web_id)
+        inventory = ProductInventory.objects.get(web_id=inventory_web_id)
         basket_object = BasketObject.objects.get(
             basket=basket,
-            product_inventory=product_inventory,
+            inventory=inventory,
         )
         basket_object.delete()
         return basket
 
     @strawberry.mutation
     def update_basket(
-        self, info, basket_web_id: str, inventory_web_id: str, quantity: int
+        self, info, basket_web_id: str, inventory_web_id: str, qty: int
     ) -> BasketType:
         basket = Basket.objects.get(web_id=basket_web_id)
         if basket.locked:
             raise Exception("Basket is locked")
-        product_inventory = ProductInventory.objects.get(web_id=inventory_web_id)
+        inventory = ProductInventory.objects.get(web_id=inventory_web_id)
         basket_object = BasketObject.objects.get(
             basket=basket,
-            product_inventory=product_inventory,
+            inventory=inventory,
         )
-        basket_object.quantity = quantity
+        basket_object.qty = qty
         basket_object.save()
         return basket
 

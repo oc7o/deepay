@@ -48,13 +48,8 @@ class OrderType:
         # This is not like basket.total_price() because we want to get the price for the vendor
         total_price = 0
         for basket_object in self.basket.basket_objects.all():
-            if (
-                basket_object.product_inventory.product.owner
-                == info.context.request.user
-            ):
-                total_price += (
-                    basket_object.product_inventory.store_price * basket_object.quantity
-                )
+            if basket_object.inventory.product.owner == info.context.request.user:
+                total_price += basket_object.inventory.store_price * basket_object.qty
         return total_price
 
 
@@ -71,7 +66,7 @@ class PaymentsQuery:
     @strawberry.field(permission_classes=[IsAuthenticated])
     def my_orders(self, info) -> typing.List[OrderType]:
         orders = Order.objects.filter(
-            basket__basket_objects__product_inventory__product__owner=info.context.request.user
+            basket__basket_objects__inventory__product__owner=info.context.request.user
         )
         return orders
 
@@ -105,12 +100,12 @@ class PaymentsMutation:
 
         out_of_stock = []
         for basket_object in basket.basket_objects.all():
-            if basket_object.quantity > basket_object.product_inventory.stock.units:
+            if basket_object.qty > basket_object.inventory.stock.units:
                 out_of_stock.append(
                     {
-                        "product": basket_object.product_inventory.product.name,
-                        "quantity": basket_object.quantity,
-                        "stock": basket_object.product_inventory.stock.units,
+                        "product": basket_object.inventory.product.name,
+                        "qty": basket_object.qty,
+                        "stock": basket_object.inventory.stock.units,
                     }
                 )
 
