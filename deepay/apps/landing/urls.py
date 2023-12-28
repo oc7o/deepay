@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 
 from deepay.apps.landing.views import LandingView
 

@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "storages",
     # local apps
     "deepay.apps.users",
+    "deepay.apps.forum",
     "deepay.apps.inventory",
     "deepay.apps.payments",
     "deepay.apps.basket",
