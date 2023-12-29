@@ -12,7 +12,7 @@ class ExtendUser(AbstractUser):
         upload_to="uploads/profile_images/",
         blank=True,
         null=True,
-        default="/static/defaults/profile_image.png",
+        default="/media/static/defaults/profile_image.png",
     )
 
     @property

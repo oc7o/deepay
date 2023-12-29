@@ -1,7 +1,5 @@
 {% extends 'layouts/base.html' %}
-
 {% load static %}
-
 {% block content %}
   <div class="text-sm breadcrumbs">
     <ul>
@@ -31,7 +29,8 @@
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="mask mask-squircle w-12 h-12">
-                    <img src="{{ product.default_image }}" alt="Avatar Tailwind CSS Component" />
+                    <img src="{{ product.default_image.url }}"
+                         alt="Avatar Tailwind CSS Component" />
                   </div>
                 </div>
                 <div>
@@ -53,7 +52,8 @@
               </p>
             </td>
             <th>
-              <a class="btn btn-ghost btn-xs" href="{% url 'inventory:product-inventories' web_id=product.web_id %}"><i class="bi bi-eye"></i></a>
+              <a class="btn btn-ghost btn-xs"
+                 href="{% url 'inventory:product-inventories' web_id=product.web_id %}"><i class="bi bi-eye"></i></a>
             </th>
           </tr>
         {% endfor %}

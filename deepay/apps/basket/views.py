@@ -12,3 +12,7 @@ class BasketView(TemplateView):
             basket_object.delete()
 
         return self.get(request, *args, **kwargs)
+
+
+class CreateOrderView(TemplateView):
+    template_name = "basket/create_order.html"

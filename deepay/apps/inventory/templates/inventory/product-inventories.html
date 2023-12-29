@@ -1,7 +1,5 @@
 {% extends 'layouts/base.html' %}
-
 {% load static %}
-
 {% block content %}
   <div class="text-sm breadcrumbs">
     <ul>
@@ -27,13 +25,13 @@
       <tbody>
         <p>{{ product }}</p>
         {% for inventory in product.inventories.all %}
-        <p>{{inventory.web_id}}</p>
+          <p>{{ inventory.web_id }}</p>
           <tr>
             <td>
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="mask mask-squircle w-12 h-12">
-                    <img src="{{ inventory.default_image }}" alt="Image" />
+                    <img src="{{ inventory.default_image.url }}" alt="Image" />
                   </div>
                 </div>
                 <div>
@@ -55,7 +53,9 @@
               </p>
             </td>
             <th>
-              <button class="btn btn-ghost btn-xs"><i class="bi bi-eye"></i></button>
+              <button class="btn btn-ghost btn-xs">
+                <i class="bi bi-eye"></i>
+              </button>
             </th>
           </tr>
         {% endfor %}

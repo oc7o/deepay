@@ -1,0 +1,57 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="text-sm breadcrumbs">
+        <ul>
+            <li>
+                <a href="{% url 'forum:thread-list' %}">Threads</a>
+            </li>
+            <li>
+                <a href="{% url 'forum:thread-detail' slug=object.thread.slug %}">{{ object.thread.slug }}</a>
+            </li>
+            <li>
+                <a href="{% url 'forum:post-detail' web_id=object.web_id %}">{{ object.title }}</a>
+            </li>
+        </ul>
+    </div>
+    <br>
+    {{ object.title }}
+    <br>
+    {{ object.content }}
+    <br>
+    {{ object.author.username }}
+    <br>
+    {{ object.created_at }}
+    <br>
+    {{ object.updated_at }}
+    <br>
+    <br>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="join">
+            <input name="content"
+                   class="input input-bordered join-item"
+                   placeholder="Message" />
+            <button type="submit"
+                    class="btn join-item rounded-r-full"
+                    name="comment"
+                    value="comment">Post</button>
+        </div>
+    </form>
+    {% for comment in comments %}
+        <div class="chat chat-start">
+            <div class="chat-image avatar">
+                <div class="w-10 rounded-full">
+                    <img alt="PP" src="{{ comment.author.profile_image.url }}" />
+                </div>
+            </div>
+            <div class="chat-header">
+                {{ comment.author.username }}
+                <time class="text-xs opacity-50">{{ comment.created_at }}</time>
+            </div>
+            <div class="chat-bubble">{{ comment.content }}</div>
+            <div class="chat-footer opacity-50"></div>
+        </div>
+    {% endfor %}
+{% endblock content %}

@@ -255,7 +255,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 #####################
 
-LOGOUT_REDIRECT_URL = "landing:landung"
+LOGIN_REDIRECT_URL = "users:settings"
+LOGOUT_REDIRECT_URL = "landing:landing"
 
 DEFAULT_PLACEHOLDER_IMAGE = {"url": STATIC_URL + "defaults/placeholder.png"}
 

@@ -374,7 +374,7 @@ class Media(DefaultModel):
         blank=False,
         verbose_name=_("product image"),
         upload_to="uploads/product_images/",
-        default="/static/defaults/placeholder.png",
+        default="/media/static/defaults/placeholder.png",
         help_text=_("format: required, default-default.png"),
     )
     alt_text = models.CharField(

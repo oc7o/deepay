@@ -1,7 +1,5 @@
 {% extends 'layouts/base.html' %}
-
 {% load static %}
-
 {% block content %}
   <div class="flex justify-center">
     <div class="stats shadow">
@@ -26,16 +24,15 @@
         <div class="stat-value text-secondary">2.6M</div>
         <div class="stat-desc">21% more than last month</div>
       </div> {% endcomment %}
-
       <div class="stat">
         <div class="stat-figure text-secondary">
           <div class="avatar online">
             <div class="w-16 rounded-full">
-              <img src="{{ user.profile_image }}" />
+              <img src="{{ object.profile_image.url }}" />
             </div>
           </div>
         </div>
-        <div class="stat-value">{{ user.username }}</div>
+        <div class="stat-value">{{ object.username }}</div>
         <div class="stat-title"></div>
         <div class="stat-desc text-secondary"></div>
       </div>

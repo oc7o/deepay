@@ -6,12 +6,16 @@ from deepay.models import DefaultModel
 
 class Thread(DefaultModel):
     slug = models.SlugField(unique=True)
+    description = models.TextField(blank=True, null=True)
     image = models.ImageField(
         upload_to="uploads/thread_icons/",
         blank=True,
         null=True,
-        default="/static/defaults/placeholder.png",
+        default="/media/static/defaults/placeholder.png",
     )
+
+    def __str__(self):
+        return self.slug
 
 
 class Post(DefaultModel):
