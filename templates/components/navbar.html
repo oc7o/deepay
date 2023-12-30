@@ -13,9 +13,6 @@
       <ul tabindex="0"
           class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
         <li>
-          <a href="{% url 'forum:thread-list' %}">Threads</a>
-        </li>
-        <li>
           <a>Your Products</a>
         </li>
         <li>
@@ -23,6 +20,8 @@
         </li>
       </ul>
     </div>
+    <a class="btn btn-ghost normal-case text-xl"
+       href="{% url 'forum:thread-list' %}">Forum</a>
   </div>
   <div class="navbar-center">
     <a class="btn btn-ghost normal-case text-xl"
@@ -111,9 +110,13 @@
   <div class="flex justify-center">
     <div class="card w-96 bg-base-100 shadow-xl">
       <div class="content card-body">
-        <form class="join join-horizontal">
-          <input class="input input-bordered join-item" placeholder="Search" />
-          <button class="btn join-item">
+        <form action="{% url 'landing:landing' %}"
+              method="get"
+              class="join join-horizontal">
+          <input name="search"
+                 class="input input-bordered join-item"
+                 placeholder="Search" />
+          <button type="submit" class="btn join-item">
             <i class="bi bi-search"></i>
           </button>
         </form>

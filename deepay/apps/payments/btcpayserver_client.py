@@ -2,7 +2,6 @@ import typing
 from decimal import Decimal
 
 import requests
-from django.conf import settings
 from requests import Session
 
 
@@ -52,9 +51,16 @@ class BTCPayClient:
             self.btcpay_instance + f"/api/v1/stores/{storeId}/invoices/{invoiceId}"
         ).json()
 
-    def create_invoice(self, amount: Decimal, storeId: str = None):
+    def create_invoice(
+        self, amount: Decimal, storeId: str = None, redirect_url: str = None
+    ):
         if storeId is None:
             storeId = self.default_store_id
+        if redirect_url is None:
+            redirect_url = "https://startpage.com"
+
+        print("amount", amount)
+
         data = {
             "checkout": {
                 "speedPolicy": "HighSpeed",  # "Highspeed": 0, "MediumSpeed": 1, "LowMediumSpeed": 2, "LowSpeed": 6
@@ -62,8 +68,8 @@ class BTCPayClient:
                 "defaultPaymentMethod": "BTC",
                 "expirationMinutes": 60 * 24,
                 "monitoringMinutes": 60 * 24,
-                "paymentTolerance": 100,
-                "redirectURL": "https://localhost:5173/checkout/done",  # TODO: https://sloow.de/
+                "paymentTolerance": 100,  # 0 = exact amount; 100 = free
+                "redirectURL": redirect_url,  # TODO: https://sloow.de/
                 "redirectAutomatically": True,
                 "requiresRefundEmail": False,
                 "defaultLanguage": "en-US",
@@ -86,14 +92,3 @@ class BTCPayClient:
         return self.client.post(
             self.btcpay_instance + f"/api/v1/stores/{storeId}/invoices", json=data
         ).json()
-
-
-def get_btcpay_client():
-    print(settings.BTCPAY_SERVER_URL)
-    client = BTCPayClient(
-        token=settings.BTCPAY_TOKEN,
-        btcpay_instance=settings.BTCPAY_SERVER_URL,
-        default_store_id=settings.BTCPAY_STORE_ID,
-        default_currency=settings.BTCPAY_CURRENCY,
-    )  # "EUR"
-    return client

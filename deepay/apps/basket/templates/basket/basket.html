@@ -52,15 +52,16 @@
         {% endfor %}
       </tbody>
       <!-- foot -->
-      {% comment %} <tfoot>
+      <tfoot>
         <tr>
           <th></th>
-          <th>Name</th>
-          <th>Job</th>
-          <th>Favorite Color</th>
           <th></th>
+          <th></th>
+          <th>
+            <a href="{% url 'basket:create-order' %}" class="btn btn-primary">Checkout</a>
+          </th>
         </tr>
-      </tfoot> {% endcomment %}
+      </tfoot>
     </table>
   </div>
 {% endblock %}

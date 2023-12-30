@@ -1,12 +1,11 @@
 {% load static %}
-
 <html data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{% static "css/output.css" %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'icons/font/bootstrap-icons.min.css' %}">
-
+    <link rel="stylesheet"
+          href="{% static 'icons/font/bootstrap-icons.min.css' %}">
     <style>
       .overlay {
         position: absolute;
@@ -32,12 +31,23 @@
         visibility: visible;
         opacity: 1;
       }
+
+      .text-left {
+        text-align: left;
+      }
+
+      .text-right {
+        float: right;
+      }
     </style>
   </head>
   {% comment %} <body style="background-image: url('{% static 'images/pattern.jpg' %}')"> {% endcomment %}
   <body class="bg-gray-800">
     {% include 'components/navbar.html' %}
-    <div class="m-16">{% block content %} {% endblock content %}</div>
+    <div class="m-16">
+      {% block content %}
+      {% endblock content %}
+    </div>
     {% include 'components/footer.html' %}
   </body>
 </html>

@@ -10,3 +10,9 @@ class LandingView(ListView):
     model = Product
 
     paginate_by = 8
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.GET.get("search"):
+            qs = qs.filter(name__icontains=self.request.GET.get("search"))
+        return qs
