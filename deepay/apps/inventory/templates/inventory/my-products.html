@@ -7,7 +7,7 @@
         <a href="{% url 'inventory:my-products' %}">My Products</a>
       </li>
       <li>
-        <a>Create</a>
+        <a href="{% url 'inventory:product-create' %}">Create</a>
       </li>
     </ul>
   </div>
@@ -54,6 +54,10 @@
             <th>
               <a class="btn btn-ghost btn-xs"
                  href="{% url 'inventory:product-inventories' web_id=product.web_id %}"><i class="bi bi-eye"></i></a>
+              <a class="btn btn-ghost btn-xs"
+                 href="{% url 'inventory:product-update' web_id=product.web_id %}"><i class="bi bi-pencil-square"></i></a>
+              <a class="btn btn-ghost btn-xs"
+                 href="{% url 'inventory:product-delete' web_id=product.web_id %}"><i class="bi bi-trash"></i></a>
             </th>
           </tr>
         {% endfor %}

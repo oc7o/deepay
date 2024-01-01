@@ -4,6 +4,7 @@ from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.views.generic import DetailView, TemplateView, UpdateView, ListView
 from django.urls import reverse
+from django.db.models import Count
 
 from deepay.apps.inventory.models import Product
 
@@ -46,7 +47,11 @@ class ProfileView(ListView):
         return context
 
     def get_queryset(self):
-        return Product.objects.filter(owner__username=self.kwargs["username"])
+        return Product.objects.annotate(inventories_count=Count("inventories")).filter(
+            owner__username=self.kwargs["username"],
+            is_active=True,
+            inventories_count__gt=0,
+        )
 
     # context_object_name = "user"
 
