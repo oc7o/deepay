@@ -24,6 +24,10 @@ class BasketObject(DefaultModel):
     )
     qty = models.IntegerField(default=1)
 
+    @property
+    def total_price(self):
+        return self.inventory.store_price * self.qty
+
     def __str__(self):
         return f"{self.inventory.product.name} - {self.qty}"
 

@@ -268,7 +268,7 @@ class ProductInventory(DefaultModel):
     )
     brand = models.ForeignKey(
         Brand,
-        related_name="inventries",
+        related_name="inventories",
         on_delete=models.PROTECT,
         null=True,
         blank=True,

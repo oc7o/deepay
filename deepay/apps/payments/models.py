@@ -5,6 +5,7 @@ from deepay.models import DefaultModel
 
 
 class Order(DefaultModel):
+    # TODO: add owner
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
     email = models.EmailField()

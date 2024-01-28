@@ -72,6 +72,8 @@ INSTALLED_APPS = [
     "deepay.apps.inventory",
     "deepay.apps.payments",
     "deepay.apps.basket",
+    "deepay.apps.vendor",
+    "deepay.apps.escrow",
     "deepay.apps.demo",
     "deepay.apps.captcha",
     "deepay.apps.landing",
