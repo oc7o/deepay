@@ -12,7 +12,7 @@ from deepay.apps.inventory.schema import ProductInventoryType
 from deepay.permission import IsAuthenticated
 from deepay.types import JSON  # from strawberry.scalars import JSON
 
-from .btcpayserver_client import get_btcpay_client
+from .utils import get_btcpay_client
 from .models import Order, OrderInvoice
 
 if typing.TYPE_CHECKING:

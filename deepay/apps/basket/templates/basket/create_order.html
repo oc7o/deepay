@@ -1,0 +1,84 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+    <div class="flex justify-center my-16">
+        <div class="card w-4/5 bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title flex justify-center">
+                    <ul class="steps steps-horizontal">
+                        <li class="step step-primary" data-content="🤷‍♂️">Contact</li>
+                        <li class="step" data-content="💸">Buy</li>
+                        <li class="step" data-content="✅">Finish</li>
+                    </ul>
+                </h2>
+                <form class="form-control mx-24 my-8" method="post">
+                    {% csrf_token %}
+                    <div class="inline-flex">
+                        <div class="w-full max-w-xs ml-auto mr-2">
+                            <span class="label">
+                                <span class="label-text">Vorname</span>
+                                <span class="label-text-alt"><CheckIcon /></span>
+                            </span>
+                            <input name="firstname"
+                                   type="text"
+                                   placeholder="Max"
+                                   class="input input-bordered w-full max-w-xs" />
+                        </div>
+                        <div class="w-full max-w-xs ml-2 mr-auto">
+                            <span class="label">
+                                <span class="label-text">Nachname</span>
+                                <span class="label-text-alt"><CheckIcon /></span>
+                            </span>
+                            <input name="lastname"
+                                   type="text"
+                                   placeholder="Mustermann"
+                                   class="input input-bordered w-full max-w-xs" />
+                        </div>
+                    </div>
+                    <div class="inline-flex">
+                        <div class="w-full max-w-xs ml-auto mr-2">
+                            <span class="label">
+                                <span class="label-text">Stadt</span>
+                            </span>
+                            <input name="city"
+                                   type="text"
+                                   placeholder="z.B. Berlin"
+                                   class="input input-bordered w-full max-w-xs" />
+                        </div>
+                        <div class="w-full max-w-xs ml-2 mr-auto">
+                            <span class="label">
+                                <span class="label-text">Straße, Hausnummer</span>
+                            </span>
+                            <input name="street"
+                                   type="text"
+                                   placeholder="z.B. Musterstraße, 1"
+                                   class="input input-bordered w-full max-w-xs" />
+                        </div>
+                    </div>
+                    <div class="inline-flex">
+                        <div class="w-full max-w-xs ml-auto mr-2">
+                            <span class="label">
+                                <span class="label-text">PLZ</span>
+                            </span>
+                            <input name="zip_code"
+                                   type="text"
+                                   placeholder="z.B. 12345"
+                                   class="input input-bordered w-full max-w-xs" />
+                        </div>
+                        <div class="w-full max-w-xs ml-2 mr-auto">
+                            <span class="label">
+                                <span class="label-text">E-Mail</span>
+                            </span>
+                            <input name="email"
+                                   type="text"
+                                   placeholder="z.B. user@sloow.de"
+                                   class="input input-bordered w-full max-w-xs" />
+                        </div>
+                    </div>
+                    <div class="card-actions justify-center mt-12">
+                        <button class="btn btn-primary">Buy Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

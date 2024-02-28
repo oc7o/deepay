@@ -24,6 +24,10 @@ class BasketObject(DefaultModel):
     )
     qty = models.IntegerField(default=1)
 
+    @property
+    def total_price(self):
+        return self.inventory.store_price * self.qty
+
     def __str__(self):
         return f"{self.inventory.product.name} - {self.qty}"
 
@@ -44,6 +48,9 @@ class Basket(DefaultModel):
     locked = models.BooleanField(default=False)
 
     def add(self, inventory, qty):
+        if self.locked:
+            raise Exception("Basket is locked")
+
         basket_object, created = BasketObject.objects.get_or_create(
             basket=self, inventory=inventory
         )
@@ -54,6 +61,9 @@ class Basket(DefaultModel):
         basket_object.save()
 
     def remove(self, inventory):
+        if self.locked:
+            raise Exception("Basket is locked")
+
         basket_object = BasketObject.objects.get(basket=self, inventory=inventory)
         basket_object.delete()
 

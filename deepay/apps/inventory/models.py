@@ -119,12 +119,12 @@ class Product(DefaultModel):
             if (
                 self.inventories.filter(is_default=True).exists()
                 and self.inventories.filter(is_default=True)
-                .media_files.filter(is_default=True)
+                .filter(media_files__is_feature=True)
                 .exists()
             ):
                 return (
                     self.inventories.filter(is_default=True)
-                    .media_files.filter(is_default=True)
+                    .filter(media_files__is_feature=True)
                     .first()
                     .image
                 )
@@ -268,7 +268,7 @@ class ProductInventory(DefaultModel):
     )
     brand = models.ForeignKey(
         Brand,
-        related_name="inventries",
+        related_name="inventories",
         on_delete=models.PROTECT,
         null=True,
         blank=True,
@@ -286,7 +286,7 @@ class ProductInventory(DefaultModel):
     )
     is_default = models.BooleanField(
         default=False,
-        verbose_name=_("product selection"),
+        verbose_name=_("product default inventory"),
         help_text=_("format: true=sub product visible"),
     )
     retail_price = models.DecimalField(
@@ -374,7 +374,7 @@ class Media(DefaultModel):
         blank=False,
         verbose_name=_("product image"),
         upload_to="uploads/product_images/",
-        default="/static/defaults/placeholder.png",
+        default="/media/static/defaults/placeholder.png",
         help_text=_("format: required, default-default.png"),
     )
     alt_text = models.CharField(
@@ -402,6 +402,8 @@ class Media(DefaultModel):
 class Stock(DefaultModel):
     inventory = models.OneToOneField(
         ProductInventory,
+        blank=True,
+        null=True,
         related_name="stock",
         on_delete=models.PROTECT,
     )

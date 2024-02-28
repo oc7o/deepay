@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,6 +72,8 @@ INSTALLED_APPS = [
     "deepay.apps.inventory",
     "deepay.apps.payments",
     "deepay.apps.basket",
+    "deepay.apps.vendor",
+    "deepay.apps.escrow",
     "deepay.apps.demo",
     "deepay.apps.captcha",
     "deepay.apps.landing",
@@ -255,7 +260,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 #####################
 
-LOGOUT_REDIRECT_URL = "landing:landung"
+LOGIN_REDIRECT_URL = "users:settings"
+LOGOUT_REDIRECT_URL = "landing:landing"
 
 DEFAULT_PLACEHOLDER_IMAGE = {"url": STATIC_URL + "defaults/placeholder.png"}
 

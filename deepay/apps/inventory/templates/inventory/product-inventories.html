@@ -1,7 +1,5 @@
 {% extends 'layouts/base.html' %}
-
 {% load static %}
-
 {% block content %}
   <div class="text-sm breadcrumbs">
     <ul>
@@ -9,7 +7,10 @@
         <a href="{% url 'inventory:my-products' %}">My Products</a>
       </li>
       <li>
-        <a>Create</a>
+        <a href="{% url 'inventory:product-inventories' web_id=product.web_id %}">{{ product.name }}</a>
+      </li>
+      <li>
+        <a href="{% url 'inventory:inventory-create' web_id=product.web_id %}">Create Inventory</a>
       </li>
     </ul>
   </div>
@@ -19,31 +20,29 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Category</th>
+          <th>Product Type</th>
           <th>Is Active</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <p>{{ product }}</p>
         {% for inventory in product.inventories.all %}
-        <p>{{inventory.web_id}}</p>
           <tr>
             <td>
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="mask mask-squircle w-12 h-12">
-                    <img src="{{ inventory.default_image }}" alt="Image" />
+                    <img src="{{ inventory.default_image.url }}" alt="Image" />
                   </div>
                 </div>
                 <div>
-                  <div class="font-bold">[Placeholder]</div>
+                  <div class="font-bold">{{ inventory.product.name }}: {{ inventory.describing_keyword }}</div>
                   <div class="text-sm opacity-50">{{ inventory.web_id }}</div>
                 </div>
               </div>
             </td>
             <td>
-              <div>{{ product.category }}</div>
+              <div>{{ inventory.product_type }}</div>
             </td>
             <td>
               <p>
@@ -55,7 +54,17 @@
               </p>
             </td>
             <th>
-              <button class="btn btn-ghost btn-xs"><i class="bi bi-eye"></i></button>
+              <a href="{% url 'inventory:product-inventory-detail' web_id=inventory.web_id %}"
+                 class="btn btn-ghost btn-xs">
+                <i class="bi bi-eye"></i>
+              </a>
+              <a class="btn btn-ghost btn-xs">
+                <i class="bi bi-card-image"></i>
+              </a>
+              <a class="btn btn-ghost btn-xs"
+                 href="{% url 'inventory:inventory-update' web_id=inventory.web_id %}"><i class="bi bi-pencil-square"></i></a>
+              <a class="btn btn-ghost btn-xs"
+                 href="{% url 'inventory:inventory-delete' web_id=inventory.web_id %}"><i class="bi bi-trash"></i></a>
             </th>
           </tr>
         {% endfor %}

@@ -1,0 +1,10 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ object.product.name }}: {{ object.describing_keyword }}"?</p>
+        {{ form }}
+        <input class="btn btn-error" type="submit" value="Confirm">
+    </form>
+{% endblock content %}

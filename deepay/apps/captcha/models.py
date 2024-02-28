@@ -13,7 +13,7 @@ class Captcha(DefaultModel):
     # expires = models.DateTimeField() # TODO: add expires field
     image = models.ImageField(
         upload_to="uploads/captchas/",
-        default="/static/defaults/placeholder.png",
+        default="/media/static/defaults/placeholder.png",
     )
 
     # TODO: Why?
